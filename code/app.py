@@ -155,7 +155,6 @@ def show_image():
         if ".jpg" in dir:
             images.append(dir)
 
-    # images = ['histogram1.jpg', 'histogram2.jpg', 'histogram3.jpg', 'histogram4.jpg', 'histogram5.jpg']
     texts = []
 
     for i in range(1, len(images) + 1):

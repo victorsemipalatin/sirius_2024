@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import threading
 import os
 import logging
 
@@ -105,9 +106,9 @@ def upload_file():
         logging.info(f"Файл загружен с ID {new_file.id}")
 
         # # Запуск обработки в отдельном потоке
-        # thread = threading.Thread(target=process_file, args=(new_file.id,))
-        # thread.start()
-        process_file(new_file.id)
+        thread = threading.Thread(target=process_file, args=(new_file.id,))
+        thread.start()
+        #process_file(new_file.id)
 
         return jsonify({'id': new_file.id}), 200
     except Exception as e:
@@ -146,16 +147,23 @@ def home():
 
 @app.route('/image')
 def show_image():
-    images = ['histogram1.jpg', 'histogram2.jpg', 'histogram3.jpg', 'histogram4.jpg', 'histogram5.jpg']
+    directory = 'static'
+    images = []
+
+    dirs = os.listdir(path=directory)
+    for dir in dirs:
+        if ".jpg" in dir:
+            images.append(dir)
+
+    # images = ['histogram1.jpg', 'histogram2.jpg', 'histogram3.jpg', 'histogram4.jpg', 'histogram5.jpg']
     texts = []
 
-    for i in range(1, 6):
+    for i in range(1, len(images) + 1):
         text_filename = f'text{i}.txt'
         text_filepath = os.path.join('static', text_filename)
         if os.path.exists(text_filepath):
             with open(text_filepath, 'r', encoding='cp1251') as file:
                 texts.append(file.read())
-
     return render_template('image.html', images=images, texts=texts, zip=zip)
 
 

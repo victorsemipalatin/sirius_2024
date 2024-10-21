@@ -1,5 +1,5 @@
 # SIRIUS DIGITAL HACK 
-## Решение команды =Григорий Рыбалка=
+## Решение команды =Григорий Рыбалка= (3 место)
 ## Содержание
 
 1. Состав команды
@@ -90,3 +90,4 @@ $ docker run -it --name pmc sirius
 - **Размещение сайта на сервере:** увеличение доступности проекта.  
 - **Написание тестов**  
 ![pic3](https://github.com/victorsemipalatin/sirius_2024/blob/main/goodby.png)
+![diploma](https://github.com/victorsemipalatin/sirius_2024/blob/main/photo_2024-10-21_00-42-32.jpg)

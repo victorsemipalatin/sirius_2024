@@ -106,13 +106,9 @@ def get_texts(clusters): # получение анализа графиков
     return texts
 
 
-def get_pictures(results):
-    """
-        Graphics creator
-        results: list of processed dicts
-        return: pictures
-    """
-    trash = "trash"
+
+def get_pictures(results, foldername): # получение графиков
+    trash = foldername
     pics = []
     for i, res in enumerate(results):
         x = [key for key in res.keys()][::-1]
@@ -124,6 +120,6 @@ def get_pictures(results):
         font = {'family': 'Times New Roman', 'color':  'black', 'weight': 'normal', 'size': 10} # настройки шрифта
         for index, value in enumerate(y):   
             plt.text(value, index, str(value) + "%", va='center', fontdict=font)
-        plt.savefig(os.path.join(trash, f"{i}.png"), bbox_inches='tight')
-        pics.append(f"{i}.png")
+        plt.savefig(os.path.join(trash, f"histogram{i+1}.png"), bbox_inches='tight')
+        pics.append(f"histogram{i+1}.png")
     return pics

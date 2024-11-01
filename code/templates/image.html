@@ -73,10 +73,10 @@
 </head>
 <body>
     <div class="green-bar"></div>
-    <a href="http://localhost:5000/" class="fixed-button">На главную</a>
-    <h1>Вот ваши изображения и тексты</h1>
+    <a href="{{ url_for('report_options') }}" class="fixed-button">На главную</a>
+    <h1>Отчет</h1>
 
-    {% for image, text in zip(images, texts) %}
+    {% for image, text in image_text_pairs %}
         <img src="{{ url_for('static', filename=image) }}" alt="Ваше изображение">
         <div class="description">
             {{ text|safe }}

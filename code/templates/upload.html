@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузка XLSX</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 80px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: #555;
+            margin-top: 40px;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .link-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .link-container a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+        }
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+        .green-bar {
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to right, #32a852, #9acd32); /* Градиентный фон полосы */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Тень для полосы */
+            z-index: 5;
+        }
+        .fixed-button {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            padding: 15px 30px;
+            background-color: #32a852; 
+            color: white;
+            border: none;
+            border-radius: 30px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 18px;
+            z-index: 10;
+            transition: background-color 0.3s, transform 0.3s; 
+        }
+        .fixed-button:hover {
+            background-color: #28a745; 
+            transform: translateY(-3px); 
+        }
+        
+        #processingMessage {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+            color: #555;
+            display: none; /* Скрыт по умолчанию */
+        }
+    </style>
+    <script>
+        function showProcessingMessage() {
+            // Показываем сообщение "Идет обработка..."
+            document.getElementById('processingMessage').style.display = 'block';
+        }
+
+        function startChecking(n) {
+            console.log(`Checking for ${n} PNG files every 2 seconds.`); // Отладочное сообщение
+            setInterval(function() {
+                fetch(`/check_png/${n}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data); // Отладка ответа сервера
+                        if (data.redirect) {
+                            window.location.href = '/image';
+                        } else {
+                            document.getElementById("status").innerText =
+                                `Количество PNG файлов: ${data.count} из ${n}`;
+                        }
+                    })
+                    .catch(error => console.error('Ошибка:', error));
+            }, 2000);
+        }
+    </script>
+</head>
+<body onload="{% if n %}startChecking({{ n }});{% endif %}">
+    <div class="green-bar"></div>
+    <a href="{{ url_for('report_options') }}" class="fixed-button">На главную</a>
+    <h1>Загрузить файл</h1>
+
+    <!-- Отображение сообщений -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Форма загрузки -->
+    <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" onsubmit="showProcessingMessage()">
+        <input type="file" name="file" accept=".xlsx" required>
+        <button type="submit">Загрузить</button>
+    </form>
+    <div id="status"></div>
+    <div id="processingMessage">Идет обработка...</div>
+</body>
+</html>

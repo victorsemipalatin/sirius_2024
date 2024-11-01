@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash, jsonify, session
+from flask import Flask, request, render_template, flash, jsonify, session, redirect
 from werkzeug.utils import secure_filename
 import os
 import shutil
@@ -7,6 +7,7 @@ import processing
 app = Flask(__name__)
 app.secret_key = 'some_secret_key'  # Нужен для работы flash-сообщений
 
+STATIC_FOLDER = 'static'
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'xlsx'}
@@ -120,5 +121,6 @@ def report_options():
 #clear_static_folder()
 
 if __name__ == '__main__':
+    os.makedirs(STATIC_FOLDER, exist_ok=True)
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.run(host='0.0.0.0', port=5000, debug=True)

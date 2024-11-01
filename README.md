@@ -45,7 +45,7 @@ http://localhost:5000/
 Кроме того готовый образ можно скачать с dockerhub:
 https://hub.docker.com/r/tylerreith/sirius_hackathon_2024
 После чего можно запустить его через Docker Desktop, указывая порт 5000 при создании контейнера.
-```
+
 В течение 2-х минут запустится сайт по адресу:
 http://localhost:5000/
 

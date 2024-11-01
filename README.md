@@ -43,7 +43,7 @@ $ docker run -d -p 5000:5000 --name my-flask-container sirius
 http://localhost:5000/
 ```
 Кроме того готовый образ можно скачать с dockerhub:
-[tylerreith/sirius_hackathon_2024](https://hub.docker.com/r/tylerreith/sirius_hackathon_2024)
+https://hub.docker.com/r/tylerreith/sirius_hackathon_2024
 После чего можно запустить его через Docker Desktop, указывая порт 5000 при создании контейнера.
 ```
 В течение 2-х минут запустится сайт по адресу:
